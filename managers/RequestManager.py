@@ -1,4 +1,6 @@
 import requests as r
+import urllib
+
 
 class RequestManager:
 
