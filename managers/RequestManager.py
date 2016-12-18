@@ -11,7 +11,6 @@ class RequestManager:
     @staticmethod
     def get(s, url):
         resp = s.get(url)
-        print(url)
         if RequestManager.confirm_response(resp):
             try:
                 return json.loads(resp.content.decode("utf-8"))

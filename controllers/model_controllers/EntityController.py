@@ -17,7 +17,10 @@ class EntityController:
     def update_entity_twitter(entity, twitter_uid, twitter_uhandle):
         entity.twitter_uid = twitter_uid
         entity.twitter_uhandle = twitter_uhandle
-        entity.update()
+        entity.save()
         return entity
 
+    @staticmethod
+    def get_entity(name, type):
+        return Entity.read(name, type)
 

@@ -87,4 +87,5 @@ class TwitterController:
             twitter_profile.profile_sidebar_border_color = twitter_profile_info["profile_sidebar_border_color"]
         if "location" in twitter_profile_info:
             twitter_profile.location = twitter_profile_info["location"]
+        twitter_profile.save()
         return twitter_profile

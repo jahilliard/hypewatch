@@ -9,7 +9,7 @@ class Entity(BaseModel):
     start_tracking = DateTimeField()
     stop_tracking = DateTimeField(null=True)
     twitter_uhandle = CharField(null=True)
-    twitter_uid = IntegerField(null=True)
+    twitter_uid = DoubleField(null=True)
     active = BooleanField()
 
     @staticmethod
@@ -22,11 +22,8 @@ class Entity(BaseModel):
     def drop_entity_table():
         Entity.drop_table()
 
-    def read(self):
-        pass
-
-    def update(self):
-        pass
-
-    def delete(self):
-        pass
+    @staticmethod
+    def read(name, type):
+        entity = Entity.select().where(Entity.name == name and Entity.type == type).get()
+        if entity:
+            return entity

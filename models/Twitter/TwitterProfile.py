@@ -2,6 +2,7 @@ from models.BaseModel import BaseModel
 from services.social_services.TwitterService import TwitterService
 from peewee import *
 from models.Entity.Entity import Entity
+from db.Mysql import Mysql
 
 
 class TwitterProfile(BaseModel):
@@ -28,7 +29,7 @@ class TwitterProfile(BaseModel):
     profile_background_image_url_https = CharField(null=True)
     verified = BooleanField()
     profile_image_url = CharField(null=True)
-    created_at = DateTimeField()
+    created_at = CharField()
     profile_background_tile = BooleanField()
     favourites_count = IntegerField()
     profile_sidebar_fill_color = CharField(null=True)
@@ -49,6 +50,16 @@ class TwitterProfile(BaseModel):
 
     def get_profile(self):
         return TwitterProfile.twitter_serv.get_twitter_profile(self.owner)
+
+    @staticmethod
+    def create_twitterprof_table():
+        Mysql.db.connect()
+        Mysql.db.create_tables([TwitterProfile], True)
+        Mysql.db.close()
+
+    @staticmethod
+    def drop_twitterprof_table():
+        TwitterProfile.drop_table()
 
     def read(self):
         pass
