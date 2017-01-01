@@ -13,6 +13,21 @@ class EntityController:
         return True
 
     @staticmethod
+    def update_entity_instagram_credentials_db(entity, instagram_uid, instagram_uhandle):
+        entity.update_entity_instagram_credentials_db(instagram_uid, instagram_uhandle)
+        return True
+
+    @staticmethod
+    def update_entity_soundcloud_credentials_db(entity, soundcloud_uid, soundcloud_uhandle):
+        entity.update_entity_soundcloud_credentials_db(soundcloud_uid, soundcloud_uhandle)
+        return True
+
+    @staticmethod
+    def update_entity_spotify_credentials_db(entity, spotify_uid):
+        entity.update_entity_spotify_credentials_db(spotify_uid)
+        return True
+
+    @staticmethod
     def get_entity(name, type):
         return Entity.read(name, type)
 

@@ -1,6 +1,5 @@
 import soundcloud
-from config.config import Config
-from managers.RequestManager import RequestManager
+from config.Config import Config
 
 
 class SoundcloudService:
@@ -11,6 +10,14 @@ class SoundcloudService:
 
     @staticmethod
     def get_profile(entity):
-        if entity.souncloud_uname:
-            soundcloud_prof_info = SoundcloudService.client.get('/users/' + entity.souncloud_uname)
+        if entity.soundcloud_uid:
+            soundcloud_prof_info = SoundcloudService.client.get('/users/%d' % int(entity.soundcloud_uid))
             return soundcloud_prof_info
+        else:
+            return False
+
+
+    @staticmethod
+    def resolve_url(user_url):
+        soundcloud_prof_info = SoundcloudService.client.get('/resolve', url=user_url)
+        return soundcloud_prof_info

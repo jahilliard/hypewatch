@@ -7,5 +7,5 @@ class SoundcloudController:
         soundcloud_prof = SoundcloudProfile()
         soundcloud_prof.owner = entity
         soundcloud_prof.get_profile()
-        return soundcloud_prof
+        return True
 

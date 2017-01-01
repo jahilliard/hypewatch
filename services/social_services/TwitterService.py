@@ -1,5 +1,5 @@
 import base64
-from config.config import Config
+from config.Config import Config
 from managers.RequestManager import RequestManager
 
 
@@ -17,7 +17,7 @@ class TwitterService:
             self.s.headers.update({"Authorization": "Bearer " + self.access_token["access_token"]})
 
     def get_twitter_profile(self, entity):
-        get_url = self.base_url + "/1.1/users/show.json?user_id=" + str(entity.twitter_uid)
+        get_url = self.base_url + "/1.1/users/show.json?user_id=" + str(int(entity.twitter_uid))
         twitter_account_res = RequestManager.get(self.s, get_url)
         return twitter_account_res
 

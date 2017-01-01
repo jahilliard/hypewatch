@@ -1,6 +1,5 @@
 from models.BaseModel import BaseModel
 from peewee import *
-from db.Mysql import Mysql
 from datetime import datetime
 
 
@@ -13,13 +12,26 @@ class Entity(BaseModel):
     twitter_uid = DoubleField(null=True)
     soundcloud_uname = CharField(null=True)
     soundcloud_uid = DoubleField(null=True)
+    instagram_uname = CharField(null=True)
+    instagram_uid = DoubleField(null=True)
+    spotify_uid = CharField(null=True)
     active = BooleanField()
 
     @staticmethod
     def create_entity_table():
-        Mysql.db.connect()
-        Mysql.db.create_tables([Entity], True)
-        Mysql.db.close()
+        BaseModel.__metaclass__.database.connect()
+        BaseModel.__metaclass__.database.create_table(Entity, safe=True)
+        BaseModel.__metaclass__.database.close()
+
+    @staticmethod
+    def drop_entity_table():
+        Entity.drop_table()
+
+    @staticmethod
+    def read(name, type):
+        entity = Entity.select().where(Entity.name == name and Entity.type == type).get()
+        if entity:
+            return entity
 
     def create_entity_db(self, name, type):
         self.name = name
@@ -35,12 +47,19 @@ class Entity(BaseModel):
         self.save()
         return True
 
-    @staticmethod
-    def drop_entity_table():
-        Entity.drop_table()
+    def update_entity_instagram_credentials_db(self, instagram_uid, instagram_uhandle):
+        self.instagram_uid = instagram_uid
+        self.instagram_uhandle = instagram_uhandle
+        self.save()
+        return True
 
-    @staticmethod
-    def read(name, type):
-        entity = Entity.select().where(Entity.name == name and Entity.type == type).get()
-        if entity:
-            return entity
+    def update_entity_soundcloud_credentials_db(self, soundcloud_uid, soundcloud_uname):
+        self.soundcloud_uid = soundcloud_uid
+        self.soundcloud_uname = soundcloud_uname
+        self.save()
+        return True
+
+    def update_entity_spotify_credentials_db(self, spotify_uid):
+        self.spotify_uid = spotify_uid
+        self.save()
+        return True

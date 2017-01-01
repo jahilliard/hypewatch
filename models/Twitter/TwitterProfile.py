@@ -2,8 +2,8 @@ from models.BaseModel import BaseModel
 from services.social_services.TwitterService import TwitterService
 from peewee import *
 from models.Entity.Entity import Entity
-from db.Mysql import Mysql
 from datetime import datetime
+import json
 
 
 class TwitterProfile(BaseModel):
@@ -55,8 +55,7 @@ class TwitterProfile(BaseModel):
         if "protected" in twitter_profile_info:
             self.protected = twitter_profile_info["protected"]
         if "profile_background_image_url_https" in twitter_profile_info:
-            self.profile_background_image_url_https = twitter_profile_info[
-                "profile_background_image_url_https"]
+            self.profile_background_image_url_https = twitter_profile_info["profile_background_image_url_https"]
         if "listed_count" in twitter_profile_info:
             self.listed_count = twitter_profile_info["listed_count"]
         if "created_at" in twitter_profile_info:
@@ -134,16 +133,13 @@ class TwitterProfile(BaseModel):
 
     @staticmethod
     def create_twitterprof_table():
-        Mysql.db.connect()
-        Mysql.db.create_tables([TwitterProfile], True)
-        Mysql.db.close()
+        BaseModel.__metaclass__.database.connect()
+        BaseModel.__metaclass__.database.create_table(TwitterProfile, safe=True)
+        BaseModel.__metaclass__.database.close()
 
     @staticmethod
     def drop_twitterprof_table():
         TwitterProfile.drop_table()
 
     def read(self):
-        pass
-
-    def delete(self):
-        pass
+        TwitterProfile.read()
