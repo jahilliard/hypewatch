@@ -100,6 +100,25 @@ class SpotfiyTest(unittest.TestCase):
         self.assertTrue(SpotifyController.get_entity_profile_info(entity))
         self.assertEqual(entity.id, SpotifyProfile.select().where(SpotifyProfile.owner_id == entity.id).get().id)
 
+#
+# class MusicbrainzTest(unittest.TestCase):
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         DatabaseController.drop_tables()
+#
+#     @classmethod
+#     def setUpClass(cls):
+#         DatabaseController.create_tables()
+#         entity = Entity()
+#         EntityController.create_entity_db(entity, "Illenium", "musician")
+#         EntityController.update_entity_musicbrainz_credentials_db(entity, "5f43abf6-92a5-468a-a633-b73f94627972=")
+#
+#     def test_get_and_store_musicbrainz_profile_to_db(self):
+#         entity = Entity.read("Illenium", "musician")
+#         self.assertTrue(SpotifyController .get_entity_profile_info(entity))
+#         self.assertEqual(entity.id, SpotifyProfile.select().where(SpotifyProfile.owner_id == entity.id).get().id)
+
 
 if __name__ == '__main__':
     unittest.main()

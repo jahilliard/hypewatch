@@ -6,6 +6,7 @@ from controllers.service_controllers.SoundcloudController import SoundcloudContr
 from models.Twitter.TwitterProfile import TwitterProfile
 from services.streaming_services.SoundcloudService import SoundcloudService
 from services.streaming_services.SpotifyService import SpotifyService
+from services.metadata_services.MusicBrainzService import MusicBrainzService
 
 
 def main():
@@ -20,6 +21,7 @@ def main():
     # print(TwitterProfile.select().where(TwitterProfile.owner_id == entity.id).get().id)
     # pass
     # SpotifyService()
+    MusicBrainzService.get_tracks_by_artist("91a81925-92f9-4fc9-b897-93cf01226282")
 
 if __name__ == "__main__":
     main()

@@ -28,6 +28,11 @@ class EntityController:
         return True
 
     @staticmethod
+    def update_entity_musicbrainz_credentials_db(entity, musicbrainz_uid):
+        entity.update_entity_musicbrainz_credentials_db(musicbrainz_uid)
+        return True
+
+    @staticmethod
     def get_entity(name, type):
         return Entity.read(name, type)
 

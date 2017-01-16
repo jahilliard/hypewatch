@@ -15,6 +15,7 @@ class Entity(BaseModel):
     instagram_uname = CharField(null=True)
     instagram_uid = DoubleField(null=True)
     spotify_uid = CharField(null=True)
+    musicbrainz_uid = CharField(null=True)
     active = BooleanField()
 
     @staticmethod
@@ -61,5 +62,10 @@ class Entity(BaseModel):
 
     def update_entity_spotify_credentials_db(self, spotify_uid):
         self.spotify_uid = spotify_uid
+        self.save()
+        return True
+
+    def update_entity_musicbrainz_credentials_db(self, musicbrainz_uid):
+        self.musicbrainz_uid = musicbrainz_uid
         self.save()
         return True
