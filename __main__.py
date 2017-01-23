@@ -1,12 +1,7 @@
-from controllers.DatabaseController import DatabaseController
-from models.Entity.Entity import Entity
-from controllers.model_controllers.EntityController import EntityController
-from controllers.service_controllers.TwitterController import TwitterController
-from controllers.service_controllers.SoundcloudController import SoundcloudController
-from models.Twitter.TwitterProfile import TwitterProfile
-from services.streaming_services.SoundcloudService import SoundcloudService
-from services.streaming_services.SpotifyService import SpotifyService
-from services.metadata_services.MusicBrainzService import MusicBrainzService
+# from controllers.DatabaseController import DatabaseController
+from src.controllers.DatabaseController import DatabaseController
+from src.models.Entity.Entity import Entity
+from config.Config import Config
 
 
 def main():
@@ -21,7 +16,9 @@ def main():
     # print(TwitterProfile.select().where(TwitterProfile.owner_id == entity.id).get().id)
     # pass
     # SpotifyService()
-    MusicBrainzService.get_tracks_by_artist("91a81925-92f9-4fc9-b897-93cf01226282")
+    # MusicBrainzService.get_tracks_by_artist("91a81925-92f9-4fc9-b897-93cf01226282")
+    print("Test Run")
+    print(Config.TEST_ENV)
 
 if __name__ == "__main__":
     main()

@@ -1,13 +1,15 @@
 import unittest
-from controllers.DatabaseController import DatabaseController
-from controllers.model_controllers.EntityController import EntityController
-from controllers.service_controllers.TwitterController import TwitterController
-from controllers.service_controllers.SoundcloudController import SoundcloudController
-from controllers.service_controllers.SpotifyController import SpotifyController
-from models.Entity.Entity import Entity
-from models.Twitter.TwitterProfile import TwitterProfile
-from models.Soundcloud.SoundcloudProfile import SoundcloudProfile
-from models.Spotify.SpotifyProfile import SpotifyProfile
+
+from src.controllers.DatabaseController import DatabaseController
+from src.controllers.model_controllers.EntityController import EntityController
+from src.controllers.service_controllers.SoundcloudController import SoundcloudController
+from src.controllers.service_controllers.SpotifyController import SpotifyController
+from src.models.Entity.Entity import Entity
+from src.models.Spotify.SpotifyProfile import SpotifyProfile
+from src.models.Twitter.TwitterProfile import TwitterProfile
+
+from src.controllers.service_controllers.TwitterController import TwitterController
+from src.models.Soundcloud.SoundcloudProfile import SoundcloudProfile
 
 
 class EntityTest(unittest.TestCase):
