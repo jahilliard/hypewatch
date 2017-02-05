@@ -1,7 +1,6 @@
 import unittest
 
 from src.controllers.DatabaseController import DatabaseController
-from src.controllers.model_controllers.EntityController import EntityController
 from src.controllers.service_controllers.SoundcloudController import SoundcloudController
 from src.controllers.service_controllers.SpotifyController import SpotifyController
 from src.models.Entity.Entity import Entity
@@ -18,7 +17,7 @@ class EntityTest(unittest.TestCase):
     def setUpClass(cls):
         DatabaseController.create_tables()
         entity = Entity()
-        EntityController.create_entity_db(entity, "Illenium", "musician")
+        entity.create_entity_db("Illenium", "musician")
 
     @classmethod
     def tearDownClass(cls):
@@ -35,13 +34,13 @@ class EntityTest(unittest.TestCase):
 
     def test_update_twitter_credentials(self):
         entity = Entity.read("Illenium", "musician")
-        self.assertTrue(EntityController.update_entity_twitter_credentials_db(entity, 2187489492, "ILLENIUMMUSIC"))
+        self.assertTrue(entity.update_entity_twitter_credentials_db(2187489492, "ILLENIUMMUSIC"))
         self.assertEqual(entity.twitter_uhandle, "ILLENIUMMUSIC")
         self.assertEqual(entity.twitter_uid, 2187489492)
 
     def test_update_soundclound_credentials(self):
         entity = Entity.read("Illenium", "musician")
-        self.assertTrue(EntityController.update_entity_soundcloud_credentials_db(entity, 27111815, "illeniumofficial"))
+        self.assertTrue(entity.update_entity_soundcloud_credentials_db(27111815, "illeniumofficial"))
         self.assertEqual(entity.soundcloud_uname, "illeniumofficial")
         self.assertEqual(entity.soundcloud_uid, 27111815)
 
@@ -52,8 +51,8 @@ class TwitterTest(unittest.TestCase):
     def setUpClass(cls):
         DatabaseController.create_tables()
         entity = Entity()
-        EntityController.create_entity_db(entity, "Illenium", "musician")
-        EntityController.update_entity_twitter_credentials_db(entity, 2187489492, "ILLENIUMMUSIC")
+        entity.create_entity_db("Illenium", "musician")
+        entity.update_entity_twitter_credentials_db(2187489492, "ILLENIUMMUSIC")
 
     @classmethod
     def tearDownClass(cls):
@@ -71,8 +70,8 @@ class SoundcloudTest(unittest.TestCase):
     def setUpClass(cls):
         DatabaseController.create_tables()
         entity = Entity()
-        EntityController.create_entity_db(entity, "Illenium", "musician")
-        EntityController.update_entity_soundcloud_credentials_db(entity, 27111815, "illeniumofficial")
+        entity.create_entity_db("Illenium", "musician")
+        entity.update_entity_soundcloud_credentials_db(27111815, "illeniumofficial")
 
     @classmethod
     def tearDownClass(cls):
@@ -94,8 +93,8 @@ class SpotfiyTest(unittest.TestCase):
     def setUpClass(cls):
         DatabaseController.create_tables()
         entity = Entity()
-        EntityController.create_entity_db(entity, "Illenium", "musician")
-        EntityController.update_entity_spotify_credentials_db(entity, "45eNHdiiabvmbp4erw26rg")
+        entity.create_entity_db("Illenium", "musician")
+        entity.update_entity_spotify_credentials_db("45eNHdiiabvmbp4erw26rg")
 
     def test_get_and_store_spotify_profile_to_db(self):
         entity = Entity.read("Illenium", "musician")

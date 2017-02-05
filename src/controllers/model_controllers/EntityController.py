@@ -2,10 +2,21 @@ from src.models.Entity.Entity import Entity
 
 
 class EntityController:
+    '''TODO: write handlers for other info into the DB (ie Twitter)'''
     @staticmethod
-    def create_entity_db(entity, name, type):
-        entity.create_entity_db(name, type)
-        return True
+    def create_new_entity(request):
+        data = request.json
+        if "entity" in data:
+            entity_data = data["entity"]
+            if "name" and "type" in entity_data:
+                name = entity_data["name"]
+                type = entity_data["type"]
+                entity = Entity()
+                entity.create_entity_db(name, type)
+            else:
+                return {"error": "Name and Type not defined"}
+        else:
+            return {"error": "Base Entity not Defined"}
 
     @staticmethod
     def update_entity_twitter_credentials_db(entity, twitter_uid, twitter_uhandle):
