@@ -101,7 +101,7 @@ class SpotfiyTest(unittest.TestCase):
         self.assertTrue(SpotifyController.get_entity_profile_info(entity))
         self.assertEqual(entity.id, SpotifyProfile.select().where(SpotifyProfile.owner_id == entity.id).get().id)
 
-#
+
 # class MusicbrainzTest(unittest.TestCase):
 #
 #     @classmethod

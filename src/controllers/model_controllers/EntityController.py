@@ -1,8 +1,9 @@
 from src.models.Entity.Entity import Entity
+from src.platform.Error import Error
 
 
 class EntityController:
-    '''TODO: write handlers for other info into the DB (ie Twitter)'''
+    # TODO: write handlers for other info into the DB (ie Twitter)
     @staticmethod
     def create_new_entity(request):
         data = request.json
@@ -13,10 +14,43 @@ class EntityController:
                 type = entity_data["type"]
                 entity = Entity()
                 entity.create_entity_db(name, type)
+                if "twitter" in entity_data:
+                    twitter_entity_data = entity_data["twitter"]
+                    twitter_uid = twitter_entity_data["twitter_uid"]
+                    twitter_uhandle = twitter_entity_data["twitter_uhandle"]
+                    entity.update_entity_twitter_credentials_db(twitter_uid, twitter_uhandle)
+                if "soundcloud" in entity_data:
+                    soundcloud_entity_data = entity_data["soundcloud"]
+                    soundcloud_uid = soundcloud_entity_data["soundcloud_uid"]
+                    soundcloud_uname = soundcloud_entity_data["soundcloud_uname"]
+                    entity.update_entity_soundcloud_credentials_db(soundcloud_uid, soundcloud_uname)
+                if "spotify" in entity_data:
+                    spotify_entity_data = entity_data["spotify"]
+                    spotify_uid = spotify_entity_data["spotify_uid"]
+                    entity.update_entity_spotify_credentials_db(spotify_uid)
+                return entity
             else:
-                return {"error": "Name and Type not defined"}
+                error = Error("Name and Type not defined")
+                return error
         else:
-            return {"error": "Base Entity not Defined"}
+            error = Error("Base Entity not Defined")
+            return error
+
+    @staticmethod
+    def update_entity(request):
+        data = request.json
+        if "entity" in data:
+            entity_data = data["entity"]
+            if "name" and "type" in entity_data:
+                name = entity_data["name"]
+                type = entity_data["type"]
+                entity = Entity.get_entity(name, type)
+                return entity
+            else:
+                error = Error("Name and Type not defined")
+                return error
+
+
 
     @staticmethod
     def update_entity_twitter_credentials_db(entity, twitter_uid, twitter_uhandle):

@@ -71,7 +71,3 @@ class Entity(BaseModel):
         self.musicbrainz_uid = musicbrainz_uid
         self.save()
         return True
-
-    @staticmethod
-    def get_entity(name, type):
-        return Entity.read(name, type)
