@@ -7,7 +7,7 @@ from src.controllers.model_controllers.EntityController import EntityController
 from src.controllers.model_controllers.UserController import UserController
 from src.platform.Error import Error
 from flask_login import LoginManager, login_required
-from wtforms import Form, StringField, PasswordField, HiddenField
+from wtforms import Form, StringField, PasswordField
 from urllib.parse import urlparse, urljoin
 
 app = Flask(__name__, static_url_path='/static')

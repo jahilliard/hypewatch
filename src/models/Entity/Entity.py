@@ -36,6 +36,12 @@ class Entity(BaseModel):
         if entity:
             return entity
 
+    @staticmethod
+    def get_all_entities():
+        entities = Entity.select()
+        if entities:
+            return entities
+
     def create_entity_db(self, name, type):
         self.name = name
         self.type = type

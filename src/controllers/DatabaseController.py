@@ -2,7 +2,6 @@ from src.models.Entity.Entity import Entity
 from src.models.User.User import User
 from src.models.Spotify.SpotifyProfile import SpotifyProfile
 from src.models.Twitter.TwitterProfile import TwitterProfile
-
 from src.models.Soundcloud.SoundcloudProfile import SoundcloudProfile
 
 

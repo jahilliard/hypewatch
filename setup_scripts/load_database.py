@@ -7,5 +7,6 @@ def main():
                 active=True, is_superuser=True)
     user.save()
 
+
 if __name__ == "__main__":
     main()
