@@ -1,4 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify, url_for
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 import json
 import os
 import datetime
@@ -9,8 +12,13 @@ from src.platform.Error import Error
 from flask_login import LoginManager, login_required
 from wtforms import Form, StringField, PasswordField
 from urllib.parse import urlparse, urljoin
+from src.loaders.global_loader import load_items
+from config.Config import Config
 
-app = Flask(__name__, static_url_path='/static')
+if Config.TEST_ENV:
+    app = Flask(__name__)
+else:
+    app = Flask(__name__, template_folder="/src/platform/templates", static_folder="/src/platform/static")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -50,6 +58,7 @@ def logout():
 
 
 @app.route('/dashboard', methods=['GET'])
+@login_required
 def dashboard():
     return render_template('dashboard.html')
 
@@ -92,6 +101,16 @@ def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
+scheduler = BackgroundScheduler()
+scheduler.start()
+scheduler.add_job(
+    func=load_items,
+    trigger=IntervalTrigger(hours=24),
+    id='printing_job',
+    name='Print date and time every five seconds',
+    replace_existing=True)
+atexit.register(lambda: scheduler.shutdown())
 
 
 if __name__ == "__main__":

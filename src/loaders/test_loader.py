@@ -10,3 +10,6 @@ def load_items():
         SoundcloudController.get_entity_profile_info(entity=entity)
         SpotifyController.get_entity_profile_info(entity=entity)
         TwitterController.get_entity_profile_info(entity=entity)
+
+if __name__ == "__main__":
+    load_items()

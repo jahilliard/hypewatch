@@ -8,7 +8,7 @@ from src.models.BaseModel import BaseModel
 class Entity(BaseModel):
     name = CharField()
     type = CharField()
-    start_tracking = DateTimeField()
+    start_tracking = DateTimeField(default=datetime.utcnow())
     stop_tracking = DateTimeField(null=True)
     twitter_uhandle = CharField(null=True)
     twitter_uid = DoubleField(null=True)
