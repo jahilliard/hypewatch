@@ -1,6 +1,6 @@
-from src.controllers.service_controllers.SoundcloudController import SoundcloudController
-from src.controllers.service_controllers.SpotifyController import SpotifyController
-from src.models.Entity.Entity import Entity
+from src.src.controllers.service_controllers.SoundcloudController import SoundcloudController
+from src.src.controllers.service_controllers.SpotifyController import SpotifyController
+from src.src.models.Entity.Entity import Entity
 
 from src.src.controllers.service_controllers.TwitterController import TwitterController
 
