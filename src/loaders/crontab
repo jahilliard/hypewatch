@@ -1,2 +1,0 @@
-* * * * * root /usr/bin/python3 global_loader.py
-* * * * * root echo "hello world" >> /var/log/cron.log 2>&1

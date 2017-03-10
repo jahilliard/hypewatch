@@ -1,4 +1,4 @@
-from src.controllers.DatabaseController import DatabaseController
+from src.src.controllers.DatabaseController import DatabaseController
 
 
 def main():

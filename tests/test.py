@@ -4,11 +4,11 @@ from src.controllers.DatabaseController import DatabaseController
 from src.controllers.service_controllers.SoundcloudController import SoundcloudController
 from src.controllers.service_controllers.SpotifyController import SpotifyController
 from src.models.Entity.Entity import Entity
+from src.models.Soundcloud.SoundcloudProfile import SoundcloudProfile
 from src.models.Spotify.SpotifyProfile import SpotifyProfile
 from src.models.Twitter.TwitterProfile import TwitterProfile
 
-from src.controllers.service_controllers.TwitterController import TwitterController
-from src.models.Soundcloud.SoundcloudProfile import SoundcloudProfile
+from src.src.controllers.service_controllers.TwitterController import TwitterController
 
 
 class EntityTest(unittest.TestCase):

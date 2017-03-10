@@ -1,6 +1,6 @@
 # from controllers.DatabaseController import DatabaseController
-from src.controllers.DatabaseController import DatabaseController
-from src.models.Entity.Entity import Entity
+from src.src import DatabaseController
+from src.src import Entity
 from config.Config import Config
 
 

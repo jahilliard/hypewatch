@@ -1,4 +1,9 @@
 config/
 config_production/
 .idea/vcs.xml
-src/db/__pycache__/
+src/src/db/__pycache__/
+.DS_Store
+airflow/logs
+src/src/models/Entity/__pycache__/__init__.cpython-35.pyc
+src/src/models/__pycache__/__init__.cpython-35.pyc
+src/src/services/metadata_services/__pycache__/

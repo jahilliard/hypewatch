@@ -7,18 +7,24 @@ RUN apt-get install -y python-pip python-dev build-essential
 RUN pip install --upgrade pip
 
 COPY dependencies /dependencies
-RUN pip install -r dependencies/requirements.txt
-COPY src /src
-COPY src/loaders/global_loader.py global_loader.py
-COPY config /config
+RUN pip install -r dependencies/requirements_loader.txt
 
-# make script executable
-RUN chmod +x global_loader.py
+COPY airflow /root/airflow
 
-# do cron stuff
-COPY src/loaders/crontab /etc/cron.d/crontab
-RUN chmod 0644 /etc/cron.d/crontab
+COPY src/src /src/src
+COPY config /src/config
+COPY setup_scripts/setup.py /src/setup.py
+RUN touch /src/__init__.py
 
-CMD cron && tail -f /var/log/cron.log
+RUN python src/setup.py build
+RUN python src/setup.py install
+RUN python src/setup.py sdist
 
-CMD python3 global_loader.py
+env	PYTHONPATH $PYTHONPATH:/src
+
+
+CMD airflow resetdb
+CMD airflow webserver -p 8080
+CMD airflow scheduler -d musician_load
+
+
