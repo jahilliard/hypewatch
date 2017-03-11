@@ -8,5 +8,5 @@ COPY dependencies /dependencies
 RUN pip install -r dependencies/requirements.txt
 COPY src /src
 COPY config_production /config
-COPY src/platform/App.py App.py
+COPY src/src/platform/App.py App.py
 CMD ["python3", "App.py"]

@@ -8,7 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from flask import Flask, redirect, render_template, request, abort, jsonify, url_for
 from flask_login import LoginManager, login_required
-from src.src.loaders.global_loader import load_items
+from src.src.loaders.global_loader import load_soundcloud, load_spotify, load_twitter
 from src.src.platform.Error import Error
 from src.src.platform.InvalidUsage import InvalidUsage
 from wtforms import Form, StringField, PasswordField
@@ -20,7 +20,7 @@ from src.src.controllers.model_controllers.UserController import UserController
 if Config.TEST_ENV:
     app = Flask(__name__)
 else:
-    app = Flask(__name__, template_folder="/src/platform/templates", static_folder="/src/platform/static")
+    app = Flask(__name__, template_folder="/src/src/platform/templates", static_folder="/src/src/platform/static")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -107,14 +107,23 @@ def handle_invalid_usage(error):
 scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
-    func=load_items,
-    trigger=IntervalTrigger(hours=24),
-    id='printing_job',
-    name='Print date and time every five seconds',
-    replace_existing=True)
+        func=load_soundcloud,
+        trigger=IntervalTrigger(hours=8),
+        id='l_SC',
+        name='loading Soundcloud')
+scheduler.add_job(
+        func=load_spotify,
+        trigger=IntervalTrigger(hours=8),
+        id='l_Spot',
+        name='loading Spotify')
+scheduler.add_job(
+        func=load_twitter,
+        trigger=IntervalTrigger(hours=8),
+        id='l_T',
+        name='loading Twitter')
 atexit.register(lambda: scheduler.shutdown())
 
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True, host='0.0.0.0', port=4000)
+    app.run(debug=True, host='0.0.0.0', port=4000, use_reloader=False)

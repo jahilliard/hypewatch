@@ -23,7 +23,7 @@ RUN python src/setup.py sdist
 env	PYTHONPATH $PYTHONPATH:/src
 
 
-# CMD airflow resetdb
-CMD airflow scheduler
+CMD airflow resetdb -y
+CMD airflow scheduler -D
 CMD airflow webserver -p 8080
 

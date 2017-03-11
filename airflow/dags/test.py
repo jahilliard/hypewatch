@@ -16,7 +16,7 @@ default_args = {
 }
 
 
-dag = DAG('musician_load', default_args=default_args, schedule_interval="10 7 * * *")
+dag = DAG('test', default_args=default_args, schedule_interval="10 7 * * *")
 
 t1 = PythonOperator(
     dag=dag,
