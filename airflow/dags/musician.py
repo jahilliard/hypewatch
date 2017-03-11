@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
-from src.src.loaders.global_loader import load_items
 
 default_args = {
     'owner': 'airflow',
@@ -15,10 +14,14 @@ default_args = {
 }
 
 
-dag = DAG('musician_load', default_args=default_args, schedule_interval="31 2 * * *")
+dag = DAG('musician_load', default_args=default_args, schedule_interval="10 7 * * *")
+
+def temp():
+    print("WHY ASDFASDF")
+    return True
 
 t1 = PythonOperator(
     dag=dag,
     task_id='load_profile_information',
     provide_context=False,
-    python_callable=load_items)
+    python_callable=temp)
