@@ -1,5 +1,6 @@
 from src.src.models.User.User import User
 from src.src.models.Entity.Entity import Entity
+from src.src.models.UserEntity.UserEntity import UserEntity
 from datetime import datetime
 
 

@@ -1,0 +1,17 @@
+version: '2'
+services:
+    webserver:
+        build:
+            context: .
+            dockerfile: Dockerfile.airflow_webserver
+        restart: always
+        ports:
+            - "8080:8080"
+
+    scheduler:
+        build:
+            context: .
+            dockerfile: Dockerfile.airflow_scheduler
+        restart: always
+        ports:
+            - "8081:8081"

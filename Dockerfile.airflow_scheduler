@@ -12,18 +12,20 @@ RUN pip install -r dependencies/requirements_loader.txt
 COPY airflow /root/airflow
 
 COPY src/src /src/src
-COPY config /src/config
-COPY setup_scripts/setup.py /src/setup.py
+COPY config_production /config
+COPY src/setup.py /src/setup.py
 RUN touch /src/__init__.py
 
 RUN python src/setup.py build
 RUN python src/setup.py install
 RUN python src/setup.py sdist
 
-env	PYTHONPATH $PYTHONPATH:/src
+RUN python config/setup.py build
+RUN python config/setup.py install
+RUN python config/setup.py sdist
+
+# env	PYTHONPATH $PYTHONPATH:/src
 
 
-CMD airflow resetdb -y
-CMD airflow scheduler -D
-CMD airflow webserver -p 8080
+CMD ["airflow", "scheduler"]
 

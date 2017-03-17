@@ -3,10 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="static/dashboard.css" type="text/css">
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-1.24.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-{% if current_user.is_authenticated %}
-  Hi {{ current_user.name }}!
-{% endif %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Hypewatch</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>Account: {{ current_user.email }}</a></li>
+            </ul>
+            {% endif %}
+        </div>
+      </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+              {% for entity in entities %}
+                {% if loop.index == 1 %}
+                    <li class="active"><a href="#">{{ entity.name }} <span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li><a href="#">{{ entity.name }}</a></li>
+                {% endif %}
+              {% endfor %}
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+        </div>
+    </div>
+</div>
+
+
+{% for entity in entities %}
+    {{ entity.name }}<br>
+    {% set sound_id = "soundcloud-" + entity.id|string %}
+    {% set twitter_id = "twitter-" + entity.id|string %}
+        <div id="{{sound_id}}"></div>
+        <div id="{{twitter_id}}"></div>
+<script>
+layout = {
+    title:'{{ entity.name | string}} Soundcloud',
+    xaxis : {
+        title:'Date',
+        titlefont:{
+            family:'Courier New, monospace',
+            size:18,
+            color:'#7f7f7f'
+        }
+    },
+    yaxis: {
+        title:'Followers',
+        titlefont:{
+            family:'Courier New, monospace',
+            size:18,
+            color:'#7f7f7f'
+        }
+    }
+}
+var data = [
+  {
+    x: {{data_dict[entity.id]["soundcloud_data"] | map(attribute="tracked") | list | tojson }},
+    y: {{data_dict[entity.id]["soundcloud_data"] | map(attribute="followers_count") | list | tojson}},
+    type: 'scatter'
+  }
+];
+
+Plotly.newPlot('{{sound_id}}', data=data, layout=layout);
+</script>
+
+<script>
+layout = {
+    title:'{{ entity.name | string}} Twitter',
+    xaxis : {
+        title:'Date',
+        titlefont:{
+            family:'Courier New, monospace',
+            size:18,
+            color:'#7f7f7f'
+        }
+    },
+    yaxis: {
+        title:'Followers',
+        titlefont:{
+            family:'Courier New, monospace',
+            size:18,
+            color:'#7f7f7f'
+        }
+    }
+}
+var data = [
+  {
+    x: {{data_dict[entity.id]["twitter_data"] | map(attribute="tracked") | list | tojson }},
+    y: {{data_dict[entity.id]["twitter_data"] | map(attribute="followers_count") | list | tojson}},
+    type: 'scatter'
+  }
+];
+
+Plotly.newPlot('{{twitter_id}}', data=data, layout=layout);
+</script>
+{% endfor %}
 </body>
 </html>
