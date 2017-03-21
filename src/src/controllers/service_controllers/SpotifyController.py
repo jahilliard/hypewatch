@@ -9,3 +9,6 @@ class SpotifyController:
         prof.get_profile()
         return True
 
+    @staticmethod
+    def get_delta(entity):
+        return SpotifyProfile.delta_count(entity.id)

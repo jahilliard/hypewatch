@@ -145,3 +145,15 @@ class TwitterProfile(BaseModel):
 
     def read(self):
         TwitterProfile.read()
+
+    @staticmethod
+    def delta_count(entity_id):
+        query_results = TwitterProfile.raw("select t1.owner_id as owner_id, t2.followers_count as followers_count, "
+                                           "t2.tracked as tracked "
+                                              "t2.followers_count - t1.followers_count as count_delta FROM "
+                                              "twitterprofile as t1 join twitterprofile as t2 ON "
+                                              "DATE(t1.tracked) = DATE(t2.tracked) - INTERVAL 1 DAY "
+                                              "and t1.owner_id = t2.owner_id Where DATE(t2.tracked) >= NOW() - "
+                                              "INTERVAL 1 WEEK AND t1.owner_id = %s ORDER BY t2.tracked DESC",
+                                           entity_id)
+        return query_results

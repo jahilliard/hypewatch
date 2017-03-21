@@ -1,14 +1,10 @@
-import atexit
 import datetime
 import json
 import os
 from urllib.parse import urlparse, urljoin
 
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.interval import IntervalTrigger
 from flask import Flask, redirect, render_template, request, abort, jsonify, url_for
 from flask_login import LoginManager, login_required, login_user, current_user
-from src.src.loaders.global_loader import load_soundcloud, load_spotify, load_twitter
 from src.src.platform.Error import Error
 from src.src.platform.InvalidUsage import InvalidUsage
 from wtforms import Form, StringField, PasswordField
@@ -18,6 +14,9 @@ from config.Config import Config
 from src.src.db.Mysql import Config as Mysql_config
 from src.src.controllers.model_controllers.EntityController import EntityController
 from src.src.controllers.model_controllers.UserController import UserController
+from src.src.controllers.service_controllers.SoundcloudController import SoundcloudController
+from src.src.controllers.service_controllers.SpotifyController import SpotifyController
+from src.src.controllers.service_controllers.TwitterController import TwitterController
 
 if Config.TEST_ENV:
     app = Flask(__name__)
@@ -70,8 +69,9 @@ def dashboard():
     data_dict = {}
     for entity in entities:
         data_dict[entity.id] = {}
-        data_dict[entity.id]["soundcloud_data"] = EntityController.get_entity_7day_soundcloud_data(entity)
-        data_dict[entity.id]["twitter_data"] = EntityController.get_entity_7day_twitter_data(entity)
+        data_dict[entity.id]["soundcloud_data"] = SoundcloudController.get_delta(entity)
+        data_dict[entity.id]["spotify_data"] = SpotifyController.get_delta(entity)
+        data_dict[entity.id]["twitter_data"] = TwitterController.get_delta(entity)
     return render_template('dashboard.html', entities=entities, data_dict=data_dict)
 
 
@@ -113,29 +113,8 @@ def handle_invalid_usage(error):
     response.status_code = error.status_code
     return response
 
-scheduler = BackgroundScheduler()
-scheduler.start()
-scheduler.add_job(
-        func=load_soundcloud,
-        trigger=IntervalTrigger(hours=8),
-        id='l_SC',
-        name='loading Soundcloud')
-scheduler.add_job(
-        func=load_spotify,
-        trigger=IntervalTrigger(hours=8),
-        id='l_Spot',
-        name='loading Spotify')
-scheduler.add_job(
-        func=load_twitter,
-        trigger=IntervalTrigger(hours=8),
-        id='l_T',
-        name='loading Twitter')
-atexit.register(lambda: scheduler.shutdown())
-
-app.config['TESTING'] = False
-
 if __name__ == "__main__":
     if not Mysql_config.TEST_ENV:
         warnings.warn("In Production ENV/DATABASE", Warning)
     app.secret_key = os.urandom(12)
-    app.run(debug=True, host='0.0.0.0', port=4000, use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=4000)

@@ -11,6 +11,7 @@ class SpotifyProfile(BaseModel):
     spotify_serv = SpotifyService()
     tracked = DateTimeField()
     owner = ForeignKeyField(Entity, related_name='spotify_profile_metrics')
+    # TODO: followers to Double
     followers = TextField(null=True)
     #TODO: Handle genres table
     genres = CharField(null=True)
@@ -42,3 +43,14 @@ class SpotifyProfile(BaseModel):
     @staticmethod
     def drop_spotifyprof_table():
         SpotifyProfile.drop_table()
+
+    @staticmethod
+    def delta_count(entity_id):
+        query_results = SpotifyProfile.raw("select t1.owner_id as owner_id, t2.followers as followers, "
+                                              "t2.followers - t1.followers as count_delta FROM "
+                                              "spotifyprofile as t1 join spotifyprofile as t2 ON "
+                                              "DATE(t1.tracked) = DATE(t2.tracked) - INTERVAL 1 DAY "
+                                              "and t1.owner_id = t2.owner_id Where DATE(t2.tracked) >= NOW() - "
+                                              "INTERVAL 1 WEEK AND t1.owner_id = %s ORDER BY t2.tracked DESC",
+                                           entity_id)
+        return query_results

@@ -12,3 +12,7 @@ class SoundcloudController:
     @staticmethod
     def pull_graph_data(request):
         pass
+
+    @staticmethod
+    def get_delta(entity):
+        return SoundcloudProfile.delta_count(entity.id)

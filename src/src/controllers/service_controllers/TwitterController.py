@@ -8,3 +8,7 @@ class TwitterController:
         twitter_profile.owner = entity
         twitter_profile.get_profile()
         return True
+
+    @staticmethod
+    def get_delta(entity):
+        return TwitterProfile.delta_count(entity.id)

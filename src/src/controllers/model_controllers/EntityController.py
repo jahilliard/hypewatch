@@ -57,7 +57,7 @@ class EntityController:
 
     @staticmethod
     def get_entity_7day_twitter_data(entity):
-        oldest_date = datetime.utcnow() - timedelta(days=30)
+        oldest_date = datetime.utcnow() - timedelta(days=7)
         twitter_info = TwitterProfile.select().where(
             TwitterProfile.owner == entity, TwitterProfile.tracked > oldest_date)\
             .order_by(TwitterProfile.tracked.asc())
@@ -65,7 +65,7 @@ class EntityController:
 
     @staticmethod
     def get_entity_7day_soundcloud_data(entity):
-        oldest_date = datetime.utcnow() - timedelta(days=30)
+        oldest_date = datetime.utcnow() - timedelta(days=7)
         soundcloud_info = SoundcloudProfile.select().where(
             SoundcloudProfile.owner == entity, SoundcloudProfile.tracked > oldest_date)\
             .order_by(SoundcloudProfile.tracked.asc())

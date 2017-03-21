@@ -36,3 +36,7 @@ class UserController:
     def logout_user():
         User.logout_user()
         return
+
+    @staticmethod
+    def get_user_entity_data(current_user):
+        return current_user.get_my_entity_data()
