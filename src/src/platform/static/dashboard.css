@@ -1,80 +1,149 @@
-/*
- * Base structure
- */
-
-
-/*
- * Global add-ons
- */
-
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+html{
+    height: 100%;
+    width: 100%;
 }
 
-/*
- * Top navigation
- * Hide default border to remove 1px line.
- */
-.navbar-fixed-top {
-  border: 0;
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+    width: 100%;
 }
 
-/*
- * Sidebar
- */
-
-/* Hide for mobile, show later */
-.sidebar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
-  }
+a:link {
+    text-decoration: none;
 }
 
-/* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
+a:visited {
+    text-decoration: none;
 }
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
+
+a:hover {
+    text-decoration: none;
 }
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+#logo{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    height: 136px;
+}
+
+.icon {
+    height: 20px;
+    float:left;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+p{
+    font-family: 'Montserrat-light', sans-serif;
+    font-size: 20px;
+    color:black;
+}
+
+.brand{
+    height: 80px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.brand img{
+    width: 304px;
+}
+
+.nav-name{
+    height:100%
+    width: 100%
+}
+
+.content .main-content{
+    height:100%;
+    overflow-x: scroll;
+}
+
+.main-content .dash-content {
+    background-color: #F2F3F5;
+    height: 100%;
+    margin-right: -15px;
+    margin-top: -20px;
+}
+
+.artist-icon{
+    border-radius:100px;
+}
+
+#active-line{
+    background-color: #FF3233;
+    height: 44px;
+    width: 7px;
+    padding:0;
+    z-index: 500;
+    position: absolute;
+    top: 198px;
+}
+
+.content{
+    height:100%;
+    width:100%;
+}
+
+.find-artist{
+    margin-top:20px;
+    margin-left:5px;
+    white-space: nowrap;
+}
+
+#search-bar{
+    outline: none;
+    background-color:transparent;
+    border: 0px solid;
+    font-size: 20px;
+    height:30px;
+    width:260px;
+}
+
+.search-form {
+
+}
+
+.artist-drag-bar{
+    display: inline-block;
+    margin-left:10px;
+    margin-right:10px;
 }
 
 
-/*
- * Main content
- */
+.entity-name {
+    margin-top:-5px;
+}
 
-.main {
-  padding: 20px;
+.search-prompt{
+    color: #808284;
+    margin-top:-5px;
 }
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
+
+.search-artist{
+    margin-top:-3px;
+    margin-left:10px;
+    margin-right:10px;
+    float:left;
 }
-.main .page-header {
-  margin-top: 0;
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-element{
+    width:100%;
+    height 50px;
 }

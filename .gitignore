@@ -7,3 +7,4 @@ airflow/logs
 src/src/models/Entity/__pycache__/__init__.cpython-35.pyc
 src/src/models/__pycache__/__init__.cpython-35.pyc
 src/src/services/metadata_services/__pycache__/
+src/src/platform/static/img/
