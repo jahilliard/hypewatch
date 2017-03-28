@@ -26,3 +26,7 @@ class SpotifyService:
         else:
             return False
 
+    def search_artist(self, name):
+        get_url = self.base_url + "/v1/search/?q=" + name + "&type=artist"
+        spotify_account_res = RequestManager.get(self.s, get_url)
+        return spotify_account_res

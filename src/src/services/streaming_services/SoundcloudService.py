@@ -21,3 +21,8 @@ class SoundcloudService:
     def resolve_url(user_url):
         soundcloud_prof_info = SoundcloudService.client.get('/resolve', url=user_url)
         return soundcloud_prof_info
+
+    @staticmethod
+    def search_artist(name):
+        soundcloud_prof_info = SoundcloudService.client.get('/users', q=name)
+        return soundcloud_prof_info

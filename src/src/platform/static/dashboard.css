@@ -108,11 +108,7 @@ p{
     border: 0px solid;
     font-size: 20px;
     height:30px;
-    width:260px;
-}
-
-.search-form {
-
+    width:160px;
 }
 
 .artist-drag-bar{
@@ -122,19 +118,52 @@ p{
 }
 
 
+
 .entity-name {
     margin-top:-5px;
 }
 
-.search-prompt{
+#search-prompt{
     color: #808284;
     margin-top:-5px;
 }
 
+#search-bar{
+    display:none;
+    font-family: 'Montserrat-light', sans-serif;
+    font-size: 20px;
+    margin-top: -100px;
+    padding-top: 50px;
+    height:100%;
+}
+
+#search-block{
+    height: 100%;
+    width:100%;
+}
+
+.search-wrap{
+    padding-top:1px;
+    margin-left:10px;
+}
+
+#add-to-dash{
+    display:none;
+    width:75%;
+    height: 75px;
+    border-width:3px;
+    border-radius:30px;
+    border-style:dashed;
+    border-color: #808284;
+    margin: 0 auto;
+}
+
 .search-artist{
-    margin-top:-3px;
+    margin-top:16px;
     margin-left:10px;
     margin-right:10px;
+    height:120px;
+    width:160px;
     float:left;
 }
 
