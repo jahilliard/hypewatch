@@ -76,7 +76,7 @@
                         </div>
                         <div style="overflow-x: scroll;" class="find-artist">
                         {% for entity in entities %}
-                            <div id="artist-{{entity.id}}" class="artist-drag-bar draggable drag-drop">
+                            <div id="{{entity.id}}" class="artist-drag-bar draggable drag-drop">
                                 <img class="artist-icon img-responsive center-block" src="https://twitter.com/{{entity.twitter_uhandle | string}}/profile_image?size=bigger">
                                 <p class="entity-name">{{entity.name | string}}</p>
                             </div>
@@ -84,7 +84,17 @@
                         </div>
                 </div>
                 <div id="add-to-dash">
-
+                    <div id="add-to-dash-content">
+                        <img id="dash-icon" class="drop-entity" src="static/img/add_to_dash.png">
+                        <img class="drop-entity-active right-icon" src="static/img/drop.png">
+                        <p class="drop-entity" >Drag to compare statistics</p>
+                        <img class="drop-entity-active left-icon" src="static/img/drop.png">
+                    </div>
+                </div>
+                <div class="entity-information">
+                    <div class="entity-header">
+                        <h1>Gryffin</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,16 +147,12 @@
             autoScroll: false,
 
             onstart: function(event) {
+                offset = $(".find-artist").scrollLeft();
                 $("#add-to-dash").fadeIn("fast")
                 $(".find-artist").css('overflow-x', '');
                 start_x = event.dx;
                 start_y = event.dy;
-                position_in_list = $(event.target).offset().left-$(".find-artist").offset().left
-                if (position_in_list >= $(".find-artist").width()){
-                    event.target.setAttribute('data-x', -offset);
-                } else {
-                    use_offset = false;
-                }
+                event.target.setAttribute('data-x', -offset);
             },
 
             // call this function on every dragmove event
@@ -178,22 +184,27 @@
               // only accept elements matching this CSS selector
               accept: '.artist-drag-bar',
               // Require a 75% element overlap for a drop to be possible
-              overlap: 0.2,
+              overlap: 0.33,
 
               // listen for drop related events:
 
               ondropactivate: function (event) {
-                console.log("hit1")
+                console.log(event.relatedTarget.id);
               },
               ondragenter: function (event) {
-                console.log("hit2")
+                $("#add-to-dash-content p").text("Drop")
+                $("#dash-icon").hide()
+                $(".drop-entity-active").show()
                 $("#add-to-dash").animate({
                    height: '80px',
                    width: '80%'
                 },'fast');
+
               },
               ondragleave: function (event) {
-                console.log("hit3");
+                $("#add-to-dash-content p").text("Drag to compare statistics")
+                $("#dash-icon").show()
+                $(".drop-entity-active").hide()
                 $("#add-to-dash").animate({
                    height: '75px',
                    width: '75%'
@@ -203,7 +214,12 @@
                 console.log("hit4");
               },
               ondropdeactivate: function (event) {
-                console.log("hit5");
+                setTimeout(function(){
+                    $("#add-to-dash-content p").text("Drag to compare statistics")
+                    $("#dash-icon").show()
+                    $(".drop-entity-active").hide()
+                }, 250);
+
               }
             });
 	</script>
@@ -219,7 +235,6 @@
                 $("#search-prompt").show()
             }
         });
-
     </script>
 
     <script>

@@ -158,6 +158,14 @@ p{
     margin: 0 auto;
 }
 
+#add-to-dash-content{
+    text-align: center;
+}
+
+.drop-entity{
+    display: inline-block;
+}
+
 .search-artist{
     margin-top:16px;
     margin-left:10px;
@@ -175,4 +183,32 @@ ul {
 .nav-element{
     width:100%;
     height 50px;
+}
+
+.drop-entity{
+    font-family: 'Montserrat-regular', sans-serif;
+    font-size: 23px;
+    color: #979797;
+}
+
+#dash-icon{
+    margin-top:-17px;
+    margin-right: 10px;
+}
+
+.drop-entity-active{
+    margin-top:-17px;
+    display:none;
+}
+
+.left-icon{
+    margin-left:50px;
+}
+
+.right-icon{
+    margin-right:50px;
+}
+
+.entity-information{
+    display:none;
 }
