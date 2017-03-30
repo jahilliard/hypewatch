@@ -66,13 +66,18 @@ def logout():
 @login_required
 def dashboard():
     entities = EntityController.get_approved_entities(current_user)
-    data_dict = {}
-    for entity in entities:
-        data_dict[entity.id] = {}
-        data_dict[entity.id]["soundcloud_data"] = SoundcloudController.get_delta(entity)
-        data_dict[entity.id]["spotify_data"] = SpotifyController.get_delta(entity)
-        data_dict[entity.id]["twitter_data"] = TwitterController.get_delta(entity)
-    return render_template('dashboard.html', entities=entities, data_dict=data_dict)
+    return render_template('dashboard.html', entities=entities)
+
+
+@app.route('/entity/data', methods=['GET'])
+def get_entity_data():
+    ent_id = request.args.get('id')
+    data_dict = {
+        "soundcloud_data": SoundcloudController.get_delta(int(ent_id)),
+        "spotify_data": SpotifyController.get_delta(int(ent_id)),
+        "twitter_data": TwitterController.get_delta(int(ent_id))
+    }
+    return jsonify(data_dict)
 
 
 def is_safe_url(target):
@@ -112,6 +117,7 @@ def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
 
 if __name__ == "__main__":
     if not Mysql_config.TEST_ENV:

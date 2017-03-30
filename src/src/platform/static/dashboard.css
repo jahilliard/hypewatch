@@ -81,6 +81,10 @@ p{
     border-radius:100px;
 }
 
+.entity-header img {
+    float:left;
+}
+
 #active-line{
     background-color: #FF3233;
     height: 44px;
@@ -209,6 +213,6 @@ ul {
     margin-right:50px;
 }
 
-.entity-information{
+.entity-information-wrapper{
     display:none;
 }

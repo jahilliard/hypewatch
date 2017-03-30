@@ -47,7 +47,8 @@ class SpotifyProfile(BaseModel):
     @staticmethod
     def delta_count(entity_id):
         query_results = SpotifyProfile.raw("select t1.owner_id as owner_id, t2.followers as followers, "
-                                              "t2.followers - t1.followers as count_delta FROM "
+                                              "t2.followers - t1.followers as count_delta, "
+                                              "t2.tracked as tracked FROM "
                                               "spotifyprofile as t1 join spotifyprofile as t2 ON "
                                               "DATE(t1.tracked) = DATE(t2.tracked) - INTERVAL 1 DAY "
                                               "and t1.owner_id = t2.owner_id Where DATE(t2.tracked) >= NOW() - "

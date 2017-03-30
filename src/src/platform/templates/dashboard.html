@@ -76,7 +76,7 @@
                         </div>
                         <div style="overflow-x: scroll;" class="find-artist">
                         {% for entity in entities %}
-                            <div id="{{entity.id}}" class="artist-drag-bar draggable drag-drop">
+                            <div id="entity-{{entity.id}}" class="artist-drag-bar draggable drag-drop">
                                 <img class="artist-icon img-responsive center-block" src="https://twitter.com/{{entity.twitter_uhandle | string}}/profile_image?size=bigger">
                                 <p class="entity-name">{{entity.name | string}}</p>
                             </div>
@@ -86,14 +86,15 @@
                 <div id="add-to-dash">
                     <div id="add-to-dash-content">
                         <img id="dash-icon" class="drop-entity" src="static/img/add_to_dash.png">
-                        <img class="drop-entity-active right-icon" src="static/img/drop.png">
                         <p class="drop-entity" >Drag to compare statistics</p>
-                        <img class="drop-entity-active left-icon" src="static/img/drop.png">
                     </div>
                 </div>
-                <div class="entity-information">
+                <div class="entity-information-wrapper">
                     <div class="entity-header">
-                        <h1>Gryffin</h1>
+                        <img class="artist-icon" src="">
+                        <h1></h1>
+                    </div>
+                    <div class="entity-information">
                     </div>
                 </div>
             </div>
@@ -123,16 +124,8 @@
         }
     </script>
 	<script type="text/javascript">
-    	$(document).ready(getOffset);
-
-        $(window).resize(getOffset);
-
-        function getOffset(){
-           //sdf = $(".find-artist").width() - $(".find-artist").offset().left
-           offset = $(".find-artist")[0].scrollWidth - $(".find-artist").width();
-        }
-
-
+	    animate_box = null;
+	    in_active = false;
 	    // target elements with the "draggable" class
         interact('.draggable')
           .draggable({
@@ -174,9 +167,17 @@
             onend: function (event) {
                 $("#add-to-dash").fadeOut("fast")
                 $(".find-artist").css('overflow-x', 'scroll');
-                event.target.style.webkitTransform = event.target.style.transform = 'translate(' + start_x + 'px, ' + start_y + 'px)';
-                event.target.setAttribute('data-x', start_x);
-                event.target.setAttribute('data-y', start_y);
+                if (in_active) {
+                    setTimeout(function(){
+                        event.target.style.webkitTransform = event.target.style.transform = 'translate(' + start_x + 'px, ' + start_y + 'px)';
+                        event.target.setAttribute('data-x', start_x);
+                        event.target.setAttribute('data-y', start_y);
+                    }, 1000);
+                } else {
+                    event.target.style.webkitTransform = event.target.style.transform = 'translate(' + start_x + 'px, ' + start_y + 'px)';
+                    event.target.setAttribute('data-x', start_x);
+                    event.target.setAttribute('data-y', start_y);
+                }
             }
           });
 
@@ -184,44 +185,107 @@
               // only accept elements matching this CSS selector
               accept: '.artist-drag-bar',
               // Require a 75% element overlap for a drop to be possible
-              overlap: 0.33,
+              overlap: 0.2,
 
               // listen for drop related events:
 
               ondropactivate: function (event) {
-                console.log(event.relatedTarget.id);
               },
               ondragenter: function (event) {
+                in_active=true;
+                console.log("HIT1")
                 $("#add-to-dash-content p").text("Drop")
                 $("#dash-icon").hide()
                 $(".drop-entity-active").show()
                 $("#add-to-dash").animate({
-                   height: '80px',
-                   width: '80%'
+                    height: '80px',
+                    width: '80%'
                 },'fast');
-
+                $("#add-to-dash").animate({
+                    height: '75px',
+                    width: '75%'
+                },'fast');
+                $("#add-to-dash").animate({
+                    height: '80px',
+                    width: '80%'
+                },'fast');
+                $("#add-to-dash").animate({
+                    height: '75px',
+                    width: '75%'
+                },'fast');
+                animate_box = setInterval(
+                    function(){
+                        $("#add-to-dash").animate({
+                                height: '80px',
+                                width: '80%'
+                            },'fast');
+                            $("#add-to-dash").animate({
+                                height: '75px',
+                                width: '75%'
+                            },'fast');
+                            $("#add-to-dash").animate({
+                                height: '80px',
+                                width: '80%'
+                            },'fast');
+                            $("#add-to-dash").animate({
+                                height: '75px',
+                                width: '75%'
+                            },'fast');
+                    }, 2000);
               },
               ondragleave: function (event) {
+                in_active=false;
                 $("#add-to-dash-content p").text("Drag to compare statistics")
                 $("#dash-icon").show()
                 $(".drop-entity-active").hide()
-                $("#add-to-dash").animate({
-                   height: '75px',
-                   width: '75%'
-                },'fast');
+                clearInterval(animate_box);
+                $("#add-to-dash").stop().css({
+                                height: '75px',
+                                width: '75%'
+                            });
               },
               ondrop: function (event) {
-                console.log("hit4");
+                if (animate_box) {
+                    clearInterval(animate_box);
+                }
+                $("#add-to-dash").stop().css({
+                                height: '75px',
+                                width: '75%'
+                            });
+                load_display_entity_data(event.relatedTarget.id);
+                $("#" + event.relatedTarget.id).fadeOut("fast");
               },
               ondropdeactivate: function (event) {
+                if (animate_box) {
+                    clearInterval(animate_box);
+                }
+                $("#add-to-dash").stop().css({
+                                height: '75px',
+                                width: '75%'
+                            });
+                    $(".drop-entity-active").hide()
                 setTimeout(function(){
                     $("#add-to-dash-content p").text("Drag to compare statistics")
                     $("#dash-icon").show()
-                    $(".drop-entity-active").hide()
-                }, 250);
-
+                }, 400);
               }
             });
+
+
+        function load_display_entity_data(id){
+            $(".entity-information-wrapper").show()
+            $(".entity-header h1").text(entities[id]["name"])
+            $(".entity-header img").attr("src", "https://twitter.com/" + entities[id]["twitter_uhandle"] + "/profile_image?size=bigger")
+            entity_id = id.substring(7);
+            $.ajax({
+                method: "GET",
+                url: "entity/data",
+                data: { "id": parseInt(entity_id) }
+            })
+            .done(function( data ) {
+                console.log(data);
+            });
+        }
 	</script>
 
     <script>
@@ -238,23 +302,13 @@
     </script>
 
     <script>
-        $('.entity-name').click(function () {
-            {% for entity in entities %}
-                if (this.id == '{{entity.id}}-make-active') {
-                    $(this).addClass("active")
-                    demo.initChartist(
-                        {{data_dict[entity.id]["soundcloud_data"] | map(attribute="tracked") | list | tojson }},
-                        {{data_dict[entity.id]["soundcloud_data"] | map(attribute="followers_count") | list | tojson}}
-                    );
-                    {% for sub_entity in entities %}
-                        {% if entity.id != sub_entity.id %}
-                            $("#{{sub_entity.id}}-make-active").removeClass("active")
-                        {% endif %}
-                    {% endfor %}
-                }
-            {% endfor %}
-
-        });
+        entities = {};
+        {% for entity in entities %}
+            entities["entity-{{entity.id}}"] = {
+                "name": "{{entity.name | string}}",
+                "twitter_uhandle": "{{entity.twitter_uhandle | string}}",
+                "type": "{{entity.type | string}}"
+             }
+        {% endfor %}
     </script>
-
 </html>
