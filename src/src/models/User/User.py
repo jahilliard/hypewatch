@@ -3,8 +3,6 @@ from flask_login import UserMixin
 from peewee import *
 
 from src.src.models.BaseModel import BaseModel
-from src.src.models.UserEntity import UserEntity
-from src.src.models.Entity import Entity
 
 
 class User(BaseModel, UserMixin):
@@ -53,10 +51,3 @@ class User(BaseModel, UserMixin):
         self.active = True
         self.save()
         return self
-
-    def get_my_entity_data(self):
-        owned_entities = Entity.select().join(UserEntity).where(self.id == User.id)
-        if owned_entities.exists():
-            return owned_entities.get()
-        else:
-            return None

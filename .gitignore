@@ -1,5 +1,6 @@
 config/
 config_production/
+config_staging/
 .idea/vcs.xml
 src/src/db/__pycache__/
 .DS_Store
@@ -8,3 +9,4 @@ src/src/models/Entity/__pycache__/__init__.cpython-35.pyc
 src/src/models/__pycache__/__init__.cpython-35.pyc
 src/src/services/metadata_services/__pycache__/
 src/src/platform/static/img/
+setup_scripts/coachella_artist.csv

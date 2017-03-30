@@ -1,6 +1,6 @@
 import peewee as pw
 # from config.Config import Config
-from config_production.Config import Config
+from config_staging.Config import Config
 
 
 class Mysql:

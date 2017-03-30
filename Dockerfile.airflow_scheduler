@@ -12,7 +12,7 @@ RUN pip install -r dependencies/requirements_loader.txt
 COPY airflow /root/airflow
 
 COPY src/src /src/src
-COPY config_production /config
+COPY config_staging /config
 COPY src/setup.py /src/setup.py
 RUN touch /src/__init__.py
 
@@ -20,11 +20,9 @@ RUN python src/setup.py build
 RUN python src/setup.py install
 RUN python src/setup.py sdist
 
-RUN python config/setup.py build
-RUN python config/setup.py install
-RUN python config/setup.py sdist
-
-# env	PYTHONPATH $PYTHONPATH:/src
+RUN python config_staging/setup.py build
+RUN python config_staging/setup.py install
+RUN python config_staging/setup.py sdist
 
 
 CMD ["airflow", "scheduler"]
